@@ -9,7 +9,7 @@ function App() {
     setIsToggle(val);
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = {
@@ -21,6 +21,24 @@ function App() {
       waterBill: formData.get("waterBill"),
     };
     console.log(data); // You can send this data to your backend for further processing
+    try {
+      const response = await fetch('http://localhost:5000/api/data', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Data successfully submitted:', result);
+      } else {
+        console.error('Error submitting data:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error submitting data:', error);
+    }
   };
 
   return (
