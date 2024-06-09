@@ -25,13 +25,27 @@ db.connect((err) => {
     return;
   }
   console.log('Connected to the database');
+  console.log('Front and backend connected!');
 });
 
 // Create endpoint to handle form submissions
 app.post('/api/data', (req, res) => {
   const { Name, salary, rent, groceries, electricityBill, waterBill } = req.body;
+  
+  // Ensure all numeric fields are integers
+  const parsedSalary = parseInt(salary, 10);
+  const parsedRent = parseInt(rent, 10);
+  const parsedGroceries = parseInt(groceries, 10);
+  const parsedElectricityBill = parseInt(electricityBill, 10);
+  const parsedWaterBill = parseInt(waterBill, 10);
+
+  if (isNaN(parsedSalary) || isNaN(parsedRent) || isNaN(parsedGroceries) || isNaN(parsedElectricityBill) || isNaN(parsedWaterBill)) {
+    res.status(400).json({ error: 'All financial fields must be integers' });
+    return;
+  }
+
   const query = 'INSERT INTO expenses (name, salary, rent, groceries, electricityBill, waterBill) VALUES (?, ?, ?, ?, ?, ?)';
-  db.query(query, [Name, salary, rent, groceries, electricityBill, waterBill], (err, result) => {
+  db.query(query, [Name, parsedSalary, parsedRent, parsedGroceries, parsedElectricityBill, parsedWaterBill], (err, result) => {
     if (err) {
       console.error('Error inserting data:', err);
       res.status(500).json({ error: 'Failed to insert data' });
