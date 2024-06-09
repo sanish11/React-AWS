@@ -31,7 +31,7 @@ db.connect((err) => {
 // Create endpoint to handle form submissions
 app.post('/api/data', (req, res) => {
   const { Name, salary, rent, groceries, electricityBill, waterBill } = req.body;
-  
+
   // Ensure all numeric fields are integers
   const parsedSalary = parseInt(salary, 10);
   const parsedRent = parseInt(rent, 10);
@@ -51,7 +51,7 @@ app.post('/api/data', (req, res) => {
       res.status(500).json({ error: 'Failed to insert data' });
       return;
     }
-    res.status(200).json({ message: 'Data inserted successfully' });
+    res.status(200).json({ message: 'Data inserted successfully', connection: 'Front and backend connected!' });
   });
 });
 

@@ -1,60 +1,36 @@
-import { useState } from 'react';
-import './App.css';
-import { InputWrap, TextLabel, TextInput, Field, IconBtn } from './style';
+// Input.js
+import React from 'react';
 
-function Input({ isToggle, handleSetIsToggle, type, name, required, label, leftIconBtn, rightIconBtn, toggleIconBtn }) {
-  const [value, setValue] = useState({
-    type: "text",
-    name: "Label",
-    letters: ""
-  });
+const Input = ({ type, name, required, label, toggleIconBtn, leftIconBtn, rightIconBtn, isToggle, handleSetIsToggle }) => {
+  const handleChange = (e) => {
+    if (type === 'text' && name !== 'Name') {
+      // Only allow integer input
+      const value = e.target.value;
+      if (!/^\d*$/.test(value)) {
+        e.preventDefault();
+        return;
+      }
+    }
+  };
 
-  function handleToggleSearch() {
-    handleSetIsToggle(isToggle => !isToggle);
-  }
   return (
-    <InputWrap>
-      {<IconBtn
-        data-testid="left-icon-btn"
-        role="button"
-        aria-pressed="false"
-        onClick={handleToggleSearch}
-      >{isToggle ? toggleIconBtn : leftIconBtn}</IconBtn>}
-      <Field>
-        {isToggle ?
-          <>
-            <TextInput
-              type={type}
-              id={name}
-              name={name}
-              placeholder=" "
-              autoComplete="off"
-              value={value.letters}
-              onChange={e => setValue({ type, name, letters: e.target.value })}
-              required={required} />
-            <TextLabel htmlFor={name}>{label}</TextLabel>
-          </> :
-          <>
-            <TextInput
-              type={type}
-              id={name}
-              name={name}
-              placeholder=" "
-              autoComplete="off"
-              value={value.letters}
-              onChange={e => setValue({ type, name, letters: e.target.value })}
-              required={required} />
-            <TextLabel htmlFor={name}>{label}</TextLabel>
-          </>
-        }
-      </Field>
-      {<IconBtn
-        data-testid="right-icon-btn"
-        role="button"
-        aria-pressed="false"
-      >{rightIconBtn}</IconBtn>}
-    </InputWrap>
+    <div className="input-wrapper">
+      {leftIconBtn}
+      <label>{label}</label>
+      <input
+        type={type}
+        name={name}
+        required={required}
+        onChange={handleChange}
+      />
+      {rightIconBtn}
+      {toggleIconBtn && (
+        <button type="button" onClick={() => handleSetIsToggle(!isToggle)}>
+          {toggleIconBtn}
+        </button>
+      )}
+    </div>
   );
-}
+};
 
 export default Input;

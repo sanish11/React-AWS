@@ -5,6 +5,7 @@ import Input from "./Input";
 
 function App() {
   const [isToggle, setIsToggle] = useState(false);
+  
   function handleSetIsToggle(val) {
     setIsToggle(val);
   }
@@ -44,14 +45,14 @@ function App() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-      <Input
+        <Input
           type={isToggle ? "search" : "text"}
           name="Name"
           required
           label="Name"
-          toggleIconBtn={<BsSearch />}
+          
           leftIconBtn={<BsPencil />}
-          rightIconBtn={<RiAddLine />}
+          
           isToggle={isToggle}
           handleSetIsToggle={handleSetIsToggle}
         />
@@ -60,9 +61,9 @@ function App() {
           name="salary"
           required
           label="Salary"
-          toggleIconBtn={<BsSearch />}
+          
           leftIconBtn={<BsPencil />}
-          rightIconBtn={<RiAddLine />}
+          
           isToggle={isToggle}
           handleSetIsToggle={handleSetIsToggle}
         />
@@ -71,9 +72,9 @@ function App() {
           name="rent"
           required
           label="Rent"
-          toggleIconBtn={<BsSearch />}
+          
           leftIconBtn={<BsPencil />}
-          rightIconBtn={<RiAddLine />}
+          
           isToggle={isToggle}
           handleSetIsToggle={handleSetIsToggle}
         />
@@ -82,9 +83,9 @@ function App() {
           name="groceries"
           required
           label="Groceries"
-          toggleIconBtn={<BsSearch />}
+          
           leftIconBtn={<BsPencil />}
-          rightIconBtn={<RiAddLine />}
+          
           isToggle={isToggle}
           handleSetIsToggle={handleSetIsToggle}
         />
@@ -93,9 +94,9 @@ function App() {
           name="electricityBill"
           required
           label="Electricity Bill"
-          toggleIconBtn={<BsSearch />}
+          
           leftIconBtn={<BsPencil />}
-          rightIconBtn={<RiAddLine />}
+         
           isToggle={isToggle}
           handleSetIsToggle={handleSetIsToggle}
         />
@@ -104,9 +105,9 @@ function App() {
           name="waterBill"
           required
           label="Water Bill"
-          toggleIconBtn={<BsSearch />}
+          
           leftIconBtn={<BsPencil />}
-          rightIconBtn={<RiAddLine />}
+          
           isToggle={isToggle}
           handleSetIsToggle={handleSetIsToggle}
         />
