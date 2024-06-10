@@ -12,20 +12,39 @@ app.use(cors());
 
 // Connect to AWS RDS
 const db = mysql.createConnection({
-  host: 'your-rds-endpoint',
+  host: 'your-rds-endpoint', // e.g., mydbinstance.c9akciq32.rds.amazonaws.com
   user: 'your-db-username',
   password: 'your-db-password',
   database: 'your-database-name'
 });
 
-// Test the connection
+// Test the connection and create table if it doesn't exist
 db.connect((err) => {
   if (err) {
     console.error('Error connecting to the database:', err);
     return;
   }
   console.log('Connected to the database');
-  console.log('Front and backend connected!');
+
+  const createTableQuery = `
+    CREATE TABLE IF NOT EXISTS expenses (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      salary INT NOT NULL,
+      rent INT NOT NULL,
+      groceries INT NOT NULL,
+      electricityBill INT NOT NULL,
+      waterBill INT NOT NULL
+    )
+  `;
+
+  db.query(createTableQuery, (err, result) => {
+    if (err) {
+      console.error('Error creating table:', err);
+      return;
+    }
+    console.log('Table created or already exists');
+  });
 });
 
 // Create endpoint to handle form submissions
@@ -51,12 +70,11 @@ app.post('/api/data', (req, res) => {
       res.status(500).json({ error: 'Failed to insert data' });
       return;
     }
-    res.status(200).json({ message: 'Data inserted successfully', connection: 'Front and backend connected!' });
+    res.status(200).json({ message: 'Data inserted successfully' });
   });
 });
 
 // Start the server
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
-  console.log('Front and backend connected!');
 });
